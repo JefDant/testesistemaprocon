@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 </head>
 <body>
-  <nav class="navbar navbar-light bg-light mb-4">
+    <nav class="navbar navbar-light bg-light mb-4">
     <div class="container-fluid">
       
     <span class="navbar-brand">Bem‑vindo ao Sistema Procon</span>
@@ -85,27 +85,6 @@
     </div>
   </div>
 
-  <!-- Modal Editar Lançamento -->
-<div class="modal fade" id="modalEditar" tabindex="-1">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <form id="formEditar">
-        <div class="modal-header">
-          <h5 class="modal-title">Editar Lançamento</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row g-3" id="formEditarCampos"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Salvar Alterações</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
   <!-- jQuery, Bootstrap, DataTables JS -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -165,7 +144,7 @@
           });
 
           // Substitui a lista suspensa de status por texto puro
-          tr.children().eq(10).text(row.Status); // mostra o status como texto puro
+          tr.children().eq(10).text(row.Status);
 
           // Adiciona a célula de ações
           const actionsTd = $('<td class="text-center">');
@@ -202,81 +181,21 @@
       else alert('Erro ao salvar.');
     });
 
-    const camposEditaveis = ['Estado', 'Cidade', 'Prazo', 'Valor reembolso', 'Status'];
-    
     $(document).on('click', '.btn-editar', function(e) {
       e.preventDefault();
       const index = $(this).data('index');
       const linha = tabela.row(index).data();
+    
+      // Preenche o formulário com os dados da linha
+      const form = $('#formNovo')[0];
+      const campos = form.elements;
       const colunas = tabela.columns().header().toArray().map(th => $(th).text().trim());
     
-      const container = $('#formEditarCampos').empty();
-      colunas.slice(0, -1).forEach((coluna, i) => {
-        const nomeCampo = coluna.toLowerCase().replace(/[^\w]/g, '');
-        const idCampo = `edit_${nomeCampo}`;
-        const editavel = camposEditaveis.includes(coluna);
-    
-        const input = $(`<input type="text" class="form-control" id="${idCampo}" name="${coluna}" value="${linha[i] || ''}">`);
-        if (!editavel) input.prop('readonly', true).prop('disabled', true);
-    
-        container.append(`
-          <div class="col-md-6">
-            <label class="form-label">${coluna}</label>
-          </div>
-        `);
-        container.append($('<div class="col-md-6">').append(input));
-      });
-    
-      $('#modalEditar').modal('show');
-    });
-
-        const camposEditaveis = ['Estado', 'Cidade', 'Prazo', 'Valor reembolso', 'Status'];
-        $(document).on('click', '.btn-editar', function(e) {
-          e.preventDefault();
-          const index = $(this).data('index');
-          const linha = tabela.row(index).data();
-          const colunas = tabela.columns().header().toArray().map(th => $(th).text().trim());
-        
-          const container = $('#formEditarCampos').empty();
-          colunas.slice(0, -1).forEach((coluna, i) => {
-            const nomeCampo = coluna.toLowerCase().replace(/[^\w]/g, '');
-            const idCampo = `edit_${nomeCampo}`;
-            const editavel = camposEditaveis.includes(coluna);
-        
-            const input = $(`<input type="text" class="form-control" id="${idCampo}" name="${coluna}" value="${linha[i] || ''}">`);
-            if (!editavel) input.prop('readonly', true).prop('disabled', true);
-        
-            container.append(`
-              <div class="col-md-6">
-                <label class="form-label">${coluna}</label>
-              </div>
-            `);
-            container.append($('<div class="col-md-6">').append(input));
-          });
-        
-          $('#modalEditar').modal('show');
-        });
-
-        $('#formEditar').on('submit', async function(e) {
-        e.preventDefault();
-        const dados = {};
-        $(this).serializeArray().forEach(item => {
-          dados[item.name] = item.value;
-        });
-        dados.action = 'update'; // ajuste conforme seu Apps Script
-      
-        const res = await fetch(BASE + '?action=update', {
-          method: 'POST',
-          body: JSON.stringify(dados)
-        });
-        const resp = await res.json();
-        if (resp.ok) {
-          $('#modalEditar').modal('hide');
-          loadEntries();
-        } else {
-          alert('Erro ao salvar edição');
-  }
-});
+      for (let i = 0; i < colunas.length; i++) {
+        const campo = campos[i];
+        if (campo && linha[i] && campo.tagName !== 'BUTTON') {
+          campo.value = linha[i];
+        }
       }
     
       // Mostra o modal

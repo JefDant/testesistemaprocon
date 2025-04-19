@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 </head>
 <body>
-         <nav class="navbar navbar-light bg-light mb-4">
+<nav class="navbar navbar-light bg-light mb-4">
 <div class="container-fluid">
 <span class="navbar-brand">Bem‑vindo ao Sistema Procon</span>
 <div class="d-flex align-items-center ms-auto">
@@ -188,7 +188,23 @@ tr.children().eq(10).html(select);
 
     $(document).on('click', '.btn-editar', function(e) {
       e.preventDefault();
-      alert('Para editar mais informações, utilize o formulário de novo lançamento ou implemente a edição completa.');
+      const index = $(this).data('index');
+      const linha = tabela.row(index).data();
+    
+      // Preenche o formulário com os dados da linha
+      const form = $('#formNovo')[0];
+      const campos = form.elements;
+      const colunas = tabela.columns().header().toArray().map(th => $(th).text().trim());
+    
+      for (let i = 0; i < colunas.length; i++) {
+        const campo = campos[i];
+        if (campo && linha[i] && campo.tagName !== 'BUTTON') {
+          campo.value = linha[i];
+        }
+      }
+    
+      // Mostra o modal
+      $('#modalNovo').modal('show');
     });
     
     // Inicialização

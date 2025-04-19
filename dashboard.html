@@ -86,7 +86,7 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <script>
-    const BASE = 'https://script.google.com/macros/s/AKfycbyXLnVA0lT_-wt1CzmP8KFXrxN8xFZhJ1u0nN7aGrZQuVCJwWJtgbSxi2VBtVB8Vk-t/exec';
+    const BASE = 'https://script.google.com/macros/s/AKfycbyH71CySyT2bgbE8LU9iFPCu42jgVk-OQg7I9DCL3VYYqc1FmX3l0pGOhxHCAp-qad9/exec';
 
     // Carrega Estados via IBGE
     async function loadEstados() {
@@ -126,7 +126,11 @@
       return d.toLocaleDateString('pt-BR');
     }
       async function loadEntries() {
-        const data = await (await fetch(`${BASE}?action=entries`)).json();
+        const res = await fetch(BASE, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'entriesList' })
+      });
+      const data = await res.json();
         const body = $('#tabela tbody').empty();
         data.forEach((row, index) => {
           const tr = $('<tr>');

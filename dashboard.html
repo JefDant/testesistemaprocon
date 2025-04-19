@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
 </head>
 <body>
-     <nav class="navbar navbar-light bg-light mb-4">
+         <nav class="navbar navbar-light bg-light mb-4">
     <div class="container-fluid">
       
     <span class="navbar-brand">Bem‑vindo ao Sistema Procon</span>
@@ -144,19 +144,7 @@
           });
 
           // Substitui a lista suspensa de status por texto puro
-          const statusOptions = [
-            "Aberta", "Em análise", "Em negociação",
-            "Encaminhada ao fornecedor", "Aguardando resposta do fornecedor",
-            "Resolvida", "Arquivada sem solução"
-          ];
-          
-          const select = $('<select class="form-select form-select-sm status-select">').data('protocolo', row.Protocolo);
-          
-          statusOptions.forEach(opt => {
-            select.append(`<option${opt === row.Status ? ' selected' : ''}>${opt}</option>`);
-          });
-          
-          tr.children().eq(10).html(select);
+          tr.children().eq(10).text(row.Status);
 
           // Adiciona a célula de ações
           const actionsTd = $('<td class="text-center">');
@@ -178,31 +166,6 @@
       
         if (!tabela) tabela = $('#tabela').DataTable();
       }
-    $(document).on('change', '.status-select', async function() {
-      const novoStatus = $(this).val();
-      const protocolo = $(this).data('protocolo');
-      const responsavel = localStorage.getItem('user');
-    
-      const obj = {
-        action: 'updateStatus',
-        protocolo: protocolo,
-        status: novoStatus,
-        responsavel: responsavel
-      };
-    
-      const res = await fetch(BASE, {
-        method: 'POST',
-        body: JSON.stringify(obj)
-      });
-    
-      const data = await res.json();
-      if (data.ok) {
-        alert('Status atualizado com sucesso!');
-        loadEntries();
-      } else {
-        alert('Erro ao atualizar status.');
-      }
-    });
 
     // Novo lançamento
     $('#formNovo').on('submit', async function(e) {

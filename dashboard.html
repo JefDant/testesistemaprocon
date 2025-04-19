@@ -11,87 +11,81 @@
 </head>
 <body>
          <nav class="navbar navbar-light bg-light mb-4">
-    <div class="container-fluid">
-      
-    <span class="navbar-brand">Bem‑vindo ao Sistema Procon</span>
-    <div class="d-flex align-items-center ms-auto">
-      <span id="saudacaoUsuario" class="me-3 text-secondary small"></span>
-      <button class="btn btn-outline-danger btn-sm" id="btnLogout">Sair</button>
-    </div>
-    
-    </div>
-  </nav>
-  <div class="container">
-    <div class="mb-3 text-center">
-      <img src="logo.png" alt="Logo do Sistema" class="img-fluid" style="max-height:150px;">
-    </div>
-    <div class="mb-4 text-end">
-      <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalNovo">Novo Lançamento</button>
-    </div>
-
-    <table id="tabela" class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th>Nome completo</th><th>CPF</th><th>Estado</th><th>Cidade</th>
-          <th>Associação</th><th>Protocolo</th><th>Registro</th><th>Prazo</th>
-          <th>Limite</th><th>Descrição</th><th>Status</th><th>Responsável interno</th>
-          <th>Tipo de solução</th><th>Valor reembolso</th><th>Ações</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <!-- Modal Novo Lançamento -->
-  <div class="modal fade" id="modalNovo" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <form id="formNovo">
-          <div class="modal-header">
-            <h5 class="modal-title">Novo Lançamento</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-          <div class="modal-body">
-            <div class="row g-3">
-              <!-- Campos do formulário -->
-              <div class="col-md-6"><label class="form-label">Nome completo</label><input type="text" name="A" class="form-control" required></div>
-              <div class="col-md-6"><label class="form-label">CPF</label><input type="text" name="B" class="form-control" required></div>
-              <div class="col-md-6"><label class="form-label">Estado</label><select name="C" id="estadoSel" class="form-select" required></select></div>
-              <div class="col-md-6"><label class="form-label">Cidade</label><select name="D" id="cidadeSel" class="form-select" required disabled></select></div>
-              <div class="col-md-6"><label class="form-label">Associação</label><select name="E" class="form-select" required><option>PREVABRAP</option><option>APDAP PREV</option></select></div>
-              <div class="col-md-6"><label class="form-label">Nº Protocolo</label><input type="text" name="F" class="form-control" required></div>
-              <div class="col-md-4"><label class="form-label">Data do registro</label><input type="date" name="G" id="dataRegistro" class="form-control" required></div>
-              <div class="col-md-4"><label class="form-label">Prazo (dias)</label><input type="number" name="H" id="prazo" class="form-control" required></div>
-              <div class="col-md-4"><label class="form-label">Data limite</label><input type="date" name="I" id="dataLimite" class="form-control" readonly disabled></div>
-              <div class="col-12"><label class="form-label">Descrição</label><textarea name="J" class="form-control" rows="2" required></textarea></div>
-              <div class="col-md-6"><label class="form-label">Status</label><select name="L" class="form-select" required>
-                <option>Aberta</option><option>Em análise</option><option>Em negociação</option>
-                <option>Encaminhada ao fornecedor</option><option>Aguardando resposta do fornecedor</option>
-                <option>Resolvida</option><option>Arquivada sem solução</option>
-              </select></div>
-              <div class="col-md-6"><label class="form-label">Responsável interno</label><input type="text" name="M" class="form-control" required id="respInterno" readonly  disabled></div>
-              <div class="col-md-6"><label class="form-label">Tipo de solução</label><select name="N" class="form-select" required>
-                <option>Reembolso simples</option><option>Reembolso em dobro</option><option>Outro</option>
-              </select></div>
-              <div class="col-md-6"><label class="form-label">Valor do reembolso</label><input type="number" name="O" step="0.01" class="form-control" required></div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-primary">Salvar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- jQuery, Bootstrap, DataTables JS -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-  <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-
-  <script>
+<div class="container-fluid">
+<span class="navbar-brand">Bem‑vindo ao Sistema Procon</span>
+<div class="d-flex align-items-center ms-auto">
+<span class="me-3 text-secondary small" id="saudacaoUsuario"></span>
+<button class="btn btn-outline-danger btn-sm" id="btnLogout">Sair</button>
+</div>
+</div>
+</nav>
+<div class="container">
+<div class="mb-3 text-center">
+<img alt="Logo do Sistema" class="img-fluid" src="logo.png" style="max-height:150px;"/>
+</div>
+<div class="mb-4 text-end">
+<button class="btn btn-success" data-bs-target="#modalNovo" data-bs-toggle="modal">Novo Lançamento</button>
+</div>
+<table class="table table-striped table-bordered" id="tabela">
+<thead>
+<tr>
+<th>Nome completo</th><th>CPF</th><th>Estado</th><th>Cidade</th>
+<th>Associação</th><th>Protocolo</th><th>Registro</th><th>Prazo</th>
+<th>Limite</th><th>Descrição</th><th>Status</th><th>Responsável interno</th>
+<th>Tipo de solução</th><th>Valor reembolso</th><th>Ações</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+<!-- Modal Novo Lançamento -->
+<div class="modal fade" id="modalNovo" tabindex="-1">
+<div class="modal-dialog modal-lg">
+<div class="modal-content">
+<form id="formNovo">
+<div class="modal-header">
+<h5 class="modal-title">Novo Lançamento</h5>
+<button class="btn-close" data-bs-dismiss="modal" type="button"></button>
+</div>
+<div class="modal-body">
+<div class="row g-3">
+<!-- Campos do formulário -->
+<div class="col-md-6"><label class="form-label">Nome completo</label><input class="form-control" name="A" required="" type="text"/></div>
+<div class="col-md-6"><label class="form-label">CPF</label><input class="form-control" name="B" required="" type="text"/></div>
+<div class="col-md-6"><label class="form-label">Estado</label><select class="form-select" id="estadoSel" name="C" required=""></select></div>
+<div class="col-md-6"><label class="form-label">Cidade</label><select class="form-select" disabled="" id="cidadeSel" name="D" required=""></select></div>
+<div class="col-md-6"><label class="form-label">Associação</label><select class="form-select" name="E" required=""><option>PREVABRAP</option><option>APDAP PREV</option></select></div>
+<div class="col-md-6"><label class="form-label">Nº Protocolo</label><input class="form-control" name="F" required="" type="text"/></div>
+<div class="col-md-4"><label class="form-label">Data do registro</label><input class="form-control" id="dataRegistro" name="G" required="" type="date"/></div>
+<div class="col-md-4"><label class="form-label">Prazo (dias)</label><input class="form-control" id="prazo" name="H" required="" type="number"/></div>
+<div class="col-md-4"><label class="form-label">Data limite</label><input class="form-control" disabled="" id="dataLimite" name="I" readonly="" type="date"/></div>
+<div class="col-12"><label class="form-label">Descrição</label><textarea class="form-control" name="J" required="" rows="2"></textarea></div>
+<div class="col-md-6"><label class="form-label">Status</label><select class="form-select" name="L" required="">
+<option>Aberta</option><option>Em análise</option><option>Em negociação</option>
+<option>Encaminhada ao fornecedor</option><option>Aguardando resposta do fornecedor</option>
+<option>Resolvida</option><option>Arquivada sem solução</option>
+</select></div>
+<div class="col-md-6"><label class="form-label">Responsável interno</label><input class="form-control" disabled="" id="respInterno" name="M" readonly="" required="" type="text"/></div>
+<div class="col-md-6"><label class="form-label">Tipo de solução</label><select class="form-select" name="N" required="">
+<option>Reembolso simples</option><option>Reembolso em dobro</option><option>Outro</option>
+</select></div>
+<div class="col-md-6"><label class="form-label">Valor do reembolso</label><input class="form-control" name="O" required="" step="0.01" type="number"/></div>
+</div>
+</div>
+<div class="modal-footer">
+<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancelar</button>
+<button class="btn btn-primary" type="submit">Salvar</button>
+</div>
+</form>
+</div>
+</div>
+</div>
+<!-- jQuery, Bootstrap, DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script>
     const BASE = 'https://script.google.com/macros/s/AKfycbyXLnVA0lT_-wt1CzmP8KFXrxN8xFZhJ1u0nN7aGrZQuVCJwWJtgbSxi2VBtVB8Vk-t/exec';
 
     // Carrega Estados via IBGE
@@ -144,7 +138,18 @@
           });
 
           // Substitui a lista suspensa de status por texto puro
-          tr.children().eq(10).text(row.Status);
+          
+const statusOptions = [
+  "Aberta", "Em análise", "Em negociação",
+  "Encaminhada ao fornecedor", "Aguardando resposta do fornecedor",
+  "Resolvida", "Arquivada sem solução", "Cancelado"
+];
+const select = $('<select class="form-select form-select-sm status-select">').data('protocolo', row.Protocolo);
+statusOptions.forEach(opt => {
+  select.append(`<option${opt === row.Status ? ' selected' : ''}>${opt}</option>`);
+});
+tr.children().eq(10).html(select);
+
 
           // Adiciona a célula de ações
           const actionsTd = $('<td class="text-center">');
@@ -203,7 +208,34 @@
     });
     
     // Inicialização
-    $(document).ready(() => {
+    
+    $(document).on('change', '.status-select', async function() {
+      const novoStatus = $(this).val();
+      const protocolo = $(this).data('protocolo');
+      const responsavel = localStorage.getItem('user') || '';
+
+      const obj = {
+        action: 'updateStatus',
+        protocolo: protocolo,
+        status: novoStatus,
+        responsavel: responsavel
+      };
+
+      const res = await fetch(BASE, {
+        method: 'POST',
+        body: JSON.stringify(obj)
+      });
+
+      const data = await res.json();
+      if (data.ok) {
+        alert('Status atualizado com sucesso!');
+        loadEntries();
+      } else {
+        alert('Erro ao atualizar status: ' + (data.msg || ''));
+      }
+    });
+
+$(document).ready(() => {
   const user = localStorage.getItem('user') || '';
   $('#respInterno').val(user);
   $('#saudacaoUsuario').text('Olá, ' + user);

@@ -80,11 +80,224 @@
 </div>
 </div>
 </div>
+
+<!-- Modal Alterar Status -->
+<div class="modal fade" id="modalStatus" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="formStatus">
+        <div class="modal-header">
+          <h5 class="modal-title">Alterar Status</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="statusProtocolo" />
+          
+<div class="mb-3">
+  <label class="form-label">Novo status</label>
+  <select class="form-select" id="novoStatus" required>
+    <option>Aberta</option>
+    <option>Em análise</option>
+    <option>Em negociação</option>
+    <option>Encaminhada ao fornecedor</option>
+    <option>Aguardando resposta do fornecedor</option>
+    <option>Resolvida</option>
+    <option>Arquivada sem solução</option>
+  </select>
+</div>
+
+<div class="mb-3">
+  <label class="form-label">Responsável pela alteração</label>
+  <input type="text" class="form-control" id="responsavelAtual" readonly />
+</div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- jQuery, Bootstrap, DataTables JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+// Abrir modal com dados
+$(document).on('click', '.btn-status', function(e) {
+  e.preventDefault();
+  const protocolo = $(this).data('protocolo');
+  const status = $(this).data('status');
+
+  $('#statusProtocolo').val(protocolo);
+  $('#novoStatus').val(status);
+  $('#responsavelAtual').val(localStorage.getItem('user') || '');
+  const modal = new bootstrap.Modal(document.getElementById('modalStatus'));
+  modal.show();
+});
+
+// Enviar alteração ao backend
+$('#formStatus').on('submit', async function(e) {
+  e.preventDefault();
+  const protocolo = $('#statusProtocolo').val();
+  const status = $('#novoStatus').val();
+  const responsavel = localStorage.getItem('user') || '';
+
+  const obj = {
+    action: 'updateStatus',
+    protocolo: protocolo,
+    status: status,
+    responsavel: responsavel
+  };
+
+  const res = await fetch(BASE, {
+    method: 'POST',
+    body: JSON.stringify(obj)
+  });
+
+  const data = await res.json();
+  if (data.ok) {
+    bootstrap.Modal.getInstance(document.getElementById('modalStatus')).hide();
+    alert('Status atualizado com sucesso!');
+    loadEntries();
+  } else {
+    alert('Erro ao atualizar status: ' + (data.msg || ''));
+  }
+});
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+// Abrir modal com dados
+$(document).on('click', '.btn-status', function(e) {
+  e.preventDefault();
+  const protocolo = $(this).data('protocolo');
+  const status = $(this).data('status');
+
+  $('#statusProtocolo').val(protocolo);
+  $('#novoStatus').val(status);
+  $('#responsavelAtual').val(localStorage.getItem('user') || '');
+  const modal = new bootstrap.Modal(document.getElementById('modalStatus'));
+  modal.show();
+});
+
+// Enviar alteração ao backend
+$('#formStatus').on('submit', async function(e) {
+  e.preventDefault();
+  const protocolo = $('#statusProtocolo').val();
+  const status = $('#novoStatus').val();
+  const responsavel = localStorage.getItem('user') || '';
+
+  const obj = {
+    action: 'updateStatus',
+    protocolo: protocolo,
+    status: status,
+    responsavel: responsavel
+  };
+
+  const res = await fetch(BASE, {
+    method: 'POST',
+    body: JSON.stringify(obj)
+  });
+
+  const data = await res.json();
+  if (data.ok) {
+    bootstrap.Modal.getInstance(document.getElementById('modalStatus')).hide();
+    alert('Status atualizado com sucesso!');
+    loadEntries();
+  } else {
+    alert('Erro ao atualizar status: ' + (data.msg || ''));
+  }
+});
+
+</script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js">
+// Abrir modal com dados
+$(document).on('click', '.btn-status', function(e) {
+  e.preventDefault();
+  const protocolo = $(this).data('protocolo');
+  const status = $(this).data('status');
+
+  $('#statusProtocolo').val(protocolo);
+  $('#novoStatus').val(status);
+  $('#responsavelAtual').val(localStorage.getItem('user') || '');
+  const modal = new bootstrap.Modal(document.getElementById('modalStatus'));
+  modal.show();
+});
+
+// Enviar alteração ao backend
+$('#formStatus').on('submit', async function(e) {
+  e.preventDefault();
+  const protocolo = $('#statusProtocolo').val();
+  const status = $('#novoStatus').val();
+  const responsavel = localStorage.getItem('user') || '';
+
+  const obj = {
+    action: 'updateStatus',
+    protocolo: protocolo,
+    status: status,
+    responsavel: responsavel
+  };
+
+  const res = await fetch(BASE, {
+    method: 'POST',
+    body: JSON.stringify(obj)
+  });
+
+  const data = await res.json();
+  if (data.ok) {
+    bootstrap.Modal.getInstance(document.getElementById('modalStatus')).hide();
+    alert('Status atualizado com sucesso!');
+    loadEntries();
+  } else {
+    alert('Erro ao atualizar status: ' + (data.msg || ''));
+  }
+});
+
+</script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js">
+// Abrir modal com dados
+$(document).on('click', '.btn-status', function(e) {
+  e.preventDefault();
+  const protocolo = $(this).data('protocolo');
+  const status = $(this).data('status');
+
+  $('#statusProtocolo').val(protocolo);
+  $('#novoStatus').val(status);
+  $('#responsavelAtual').val(localStorage.getItem('user') || '');
+  const modal = new bootstrap.Modal(document.getElementById('modalStatus'));
+  modal.show();
+});
+
+// Enviar alteração ao backend
+$('#formStatus').on('submit', async function(e) {
+  e.preventDefault();
+  const protocolo = $('#statusProtocolo').val();
+  const status = $('#novoStatus').val();
+  const responsavel = localStorage.getItem('user') || '';
+
+  const obj = {
+    action: 'updateStatus',
+    protocolo: protocolo,
+    status: status,
+    responsavel: responsavel
+  };
+
+  const res = await fetch(BASE, {
+    method: 'POST',
+    body: JSON.stringify(obj)
+  });
+
+  const data = await res.json();
+  if (data.ok) {
+    bootstrap.Modal.getInstance(document.getElementById('modalStatus')).hide();
+    alert('Status atualizado com sucesso!');
+    loadEntries();
+  } else {
+    alert('Erro ao atualizar status: ' + (data.msg || ''));
+  }
+});
+
+</script>
 <script>
     const BASE = 'https://script.google.com/macros/s/AKfycbyH71CySyT2bgbE8LU9iFPCu42jgVk-OQg7I9DCL3VYYqc1FmX3l0pGOhxHCAp-qad9/exec';
 
@@ -148,11 +361,7 @@ const statusOptions = [
   "Encaminhada ao fornecedor", "Aguardando resposta do fornecedor",
   "Resolvida", "Arquivada sem solução", "Cancelado"
 ];
-const select = $('<select class="form-select form-select-sm status-select">').data('protocolo', row.Protocolo);
-statusOptions.forEach(opt => {
-  select.append(`<option${opt === row.Status ? ' selected' : ''}>${opt}</option>`);
-});
-tr.children().eq(10).html(select);
+tr.children().eq(10).text(row.Status);
 
 
           // Adiciona a célula de ações
@@ -163,7 +372,7 @@ tr.children().eq(10).html(select);
                 ⋯
               </button>
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item btn-editar" href="#" data-index="${index}">Editar</a></li>
+                <li><a class="dropdown-item btn-status" href="#" data-protocolo="${row.Protocolo}" data-status="${row.Status}">Alterar status</a></li>
               </ul>
             </div>
           `);
@@ -230,6 +439,49 @@ $(document).ready(() => {
       loadEstados();
       loadEntries();
     });
-  </script>
+  
+// Abrir modal com dados
+$(document).on('click', '.btn-status', function(e) {
+  e.preventDefault();
+  const protocolo = $(this).data('protocolo');
+  const status = $(this).data('status');
+
+  $('#statusProtocolo').val(protocolo);
+  $('#novoStatus').val(status);
+  $('#responsavelAtual').val(localStorage.getItem('user') || '');
+  const modal = new bootstrap.Modal(document.getElementById('modalStatus'));
+  modal.show();
+});
+
+// Enviar alteração ao backend
+$('#formStatus').on('submit', async function(e) {
+  e.preventDefault();
+  const protocolo = $('#statusProtocolo').val();
+  const status = $('#novoStatus').val();
+  const responsavel = localStorage.getItem('user') || '';
+
+  const obj = {
+    action: 'updateStatus',
+    protocolo: protocolo,
+    status: status,
+    responsavel: responsavel
+  };
+
+  const res = await fetch(BASE, {
+    method: 'POST',
+    body: JSON.stringify(obj)
+  });
+
+  const data = await res.json();
+  if (data.ok) {
+    bootstrap.Modal.getInstance(document.getElementById('modalStatus')).hide();
+    alert('Status atualizado com sucesso!');
+    loadEntries();
+  } else {
+    alert('Erro ao atualizar status: ' + (data.msg || ''));
+  }
+});
+
+</script>
 </body>
 </html>

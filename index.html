@@ -42,6 +42,7 @@
       });
       const data = await res.json();
       if (data.ok) {
+        localStorage.setItem('user', user);
         window.location.href = 'dashboard.html';
       } else {
         $('#alert-placeholder').html(

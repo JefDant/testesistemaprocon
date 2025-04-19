@@ -148,6 +148,7 @@
         ['Aberta','Em análise','Em negociação','Encaminhada ao fornecedor','Aguardando resposta do fornecedor','Resolvida','Arquivada sem solução']
           .forEach(opt=> sel.append(new Option(opt,opt)));
         sel.val(row.Status);
+        body.append(tr);
       });
       if (!tabela) tabela = $('#tabela').DataTable();
     }

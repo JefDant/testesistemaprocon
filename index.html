@@ -36,7 +36,7 @@
       e.preventDefault();
       const user = $('#user').val();
       const pass = $('#pass').val();
-      const res = await fetch(`${BASE}?action=login`, {
+      const res = await fetch(BASE, {
         method: 'POST',
         body: JSON.stringify({ action: 'login', user, pass })
       });

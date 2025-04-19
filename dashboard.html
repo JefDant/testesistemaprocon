@@ -125,12 +125,23 @@
 
     // Carrega lançamentos na tabela
     let tabela;
+    function formatDateISOtoBR(dateString) {
+      if (!dateString) return '';
+      const d = new Date(dateString);
+      if (isNaN(d)) return dateString;
+      return d.toLocaleDateString('pt-BR');
+    }
     async function loadEntries() {
       const data = await (await fetch(`${BASE}?action=entries`)).json();
       const body = $('#tabela tbody').empty();
       data.forEach(row => {
         const tr = $('<tr>');
-        Object.values(row).forEach(v => tr.append($('<td>').text(v)));
+        Object.entries(row).forEach(([key, value]) => {
+          const formatted = (key.toLowerCase().includes('data') || key.toLowerCase().includes('registro') || key.toLowerCase().includes('limite'))
+                          ? formatDateISOtoBR(value)
+                          : value;
+          tr.append($('<td>').text(formatted));
+          });
         // dropdown de status
         const statusTd = tr.children().eq(10).empty();
         const sel = $('<select class="form-select">').appendTo(statusTd);

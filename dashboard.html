@@ -35,7 +35,7 @@
           <th>Nome completo</th><th>CPF</th><th>Estado</th><th>Cidade</th>
           <th>Associação</th><th>Protocolo</th><th>Registro</th><th>Prazo</th>
           <th>Limite</th><th>Descrição</th><th>Status</th><th>Responsável interno</th>
-          <th>Tipo de solução</th><th>Valor reembolso</th>
+          <th>Tipo de solução</th><th>Valor reembolso</th><th>Ações</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -131,23 +131,41 @@
       if (isNaN(d)) return dateString;
       return d.toLocaleDateString('pt-BR');
     }
-    async function loadEntries() {
-      const data = await (await fetch(`${BASE}?action=entries`)).json();
-      const body = $('#tabela tbody').empty();
-      data.forEach(row => {
-        const tr = $('<tr>');
-        Object.entries(row).forEach(([key, value]) => {
-          const formatted = (key.toLowerCase().includes('data') || key.toLowerCase().includes('registro') || key.toLowerCase().includes('limite'))
-                          ? formatDateISOtoBR(value)
-                          : value;
-          tr.append($('<td>').text(formatted));
+      async function loadEntries() {
+        const data = await (await fetch(`${BASE}?action=entries`)).json();
+        const body = $('#tabela tbody').empty();
+        data.forEach((row, index) => {
+          const tr = $('<tr>');
+          Object.entries(row).forEach(([key, value]) => {
+            const formatted = (key.toLowerCase().includes('data') || key.toLowerCase().includes('registro') || key.toLowerCase().includes('limite'))
+                            ? formatDateISOtoBR(value)
+                            : value;
+            tr.append($('<td>').text(formatted));
           });
-        // dropdown de status
-        const statusTd = tr.children().eq(10).empty().text(row.Status);
-        body.append(tr);
-      });
-      if (!tabela) tabela = $('#tabela').DataTable();
-    }
+
+          // Substitui a lista suspensa de status por texto puro
+          tr.children().eq(10).text(row.Status);
+
+          // Adiciona a célula de ações
+          const actionsTd = $('<td class="text-center">');
+          const dropdown = $(`
+            <div class="dropdown">
+              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                ⋯
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item btn-editar" href="#" data-index="${index}">Editar</a></li>
+              </ul>
+            </div>
+          `);
+          actionsTd.append(dropdown);
+          tr.append(actionsTd);
+
+          body.append(tr);
+        });
+      
+        if (!tabela) tabela = $('#tabela').DataTable();
+      }
 
     // Novo lançamento
     $('#formNovo').on('submit', async function(e) {
@@ -163,6 +181,27 @@
       else alert('Erro ao salvar.');
     });
 
+    $(document).on('click', '.btn-editar', function(e) {
+      e.preventDefault();
+      const index = $(this).data('index');
+      const linha = tabela.row(index).data();
+    
+      // Preenche o formulário com os dados da linha
+      const form = $('#formNovo')[0];
+      const campos = form.elements;
+      const colunas = tabela.columns().header().toArray().map(th => $(th).text().trim());
+    
+      for (let i = 0; i < colunas.length; i++) {
+        const campo = campos[i];
+        if (campo && linha[i] && campo.tagName !== 'BUTTON') {
+          campo.value = linha[i];
+        }
+      }
+    
+      // Mostra o modal
+      $('#modalNovo').modal('show');
+    });
+    
     // Inicialização
     $(document).ready(() => {
   const user = localStorage.getItem('user') || '';

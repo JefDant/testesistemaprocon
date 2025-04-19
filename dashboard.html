@@ -257,6 +257,27 @@
         
           $('#modalEditar').modal('show');
         });
+
+        $('#formEditar').on('submit', async function(e) {
+        e.preventDefault();
+        const dados = {};
+        $(this).serializeArray().forEach(item => {
+          dados[item.name] = item.value;
+        });
+        dados.action = 'update'; // ajuste conforme seu Apps Script
+      
+        const res = await fetch(BASE + '?action=update', {
+          method: 'POST',
+          body: JSON.stringify(dados)
+        });
+        const resp = await res.json();
+        if (resp.ok) {
+          $('#modalEditar').modal('hide');
+          loadEntries();
+        } else {
+          alert('Erro ao salvar edição');
+  }
+});
       }
     
       // Mostra o modal

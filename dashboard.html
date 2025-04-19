@@ -167,19 +167,6 @@
           // Substitui a lista suspensa de status por texto puro
           tr.children().eq(10).text(row.Status); // mostra o status como texto puro
 
-          // Coluna de ações
-          const actionsTd = $('<td class="text-center">');
-          const dropdown = $(`
-            <div class="dropdown">
-              <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">⋯</button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item btn-editar" href="#" data-index="${index}">Editar</a></li>
-              </ul>
-            </div>
-          `);
-          actionsTd.append(dropdown);
-          tr.append(actionsTd);
-
           // Adiciona a célula de ações
           const actionsTd = $('<td class="text-center">');
           const dropdown = $(`
@@ -215,21 +202,33 @@
       else alert('Erro ao salvar.');
     });
 
+    const camposEditaveis = ['Estado', 'Cidade', 'Prazo', 'Valor reembolso', 'Status'];
+    
     $(document).on('click', '.btn-editar', function(e) {
       e.preventDefault();
       const index = $(this).data('index');
       const linha = tabela.row(index).data();
-    
-      // Preenche o formulário com os dados da linha
-      const form = $('#formNovo')[0];
-      const campos = form.elements;
       const colunas = tabela.columns().header().toArray().map(th => $(th).text().trim());
     
-      for (let i = 0; i < colunas.length; i++) {
-        const campo = campos[i];
-        if (campo && linha[i] && campo.tagName !== 'BUTTON') {
-          campo.value = linha[i];
-        }
+      const container = $('#formEditarCampos').empty();
+      colunas.slice(0, -1).forEach((coluna, i) => {
+        const nomeCampo = coluna.toLowerCase().replace(/[^\w]/g, '');
+        const idCampo = `edit_${nomeCampo}`;
+        const editavel = camposEditaveis.includes(coluna);
+    
+        const input = $(`<input type="text" class="form-control" id="${idCampo}" name="${coluna}" value="${linha[i] || ''}">`);
+        if (!editavel) input.prop('readonly', true).prop('disabled', true);
+    
+        container.append(`
+          <div class="col-md-6">
+            <label class="form-label">${coluna}</label>
+          </div>
+        `);
+        container.append($('<div class="col-md-6">').append(input));
+      });
+    
+      $('#modalEditar').modal('show');
+    });
 
         const camposEditaveis = ['Estado', 'Cidade', 'Prazo', 'Valor reembolso', 'Status'];
         $(document).on('click', '.btn-editar', function(e) {

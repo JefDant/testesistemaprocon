@@ -186,35 +186,26 @@ tr.children().eq(10).html(select);
       else alert('Erro ao salvar.');
     });
 
-    $(document).on('click', '.btn-editar', async function(e) {
-  e.preventDefault();
-  const index = $(this).data('index');
-  const linha = tabela.row(index).data();
-  const protocolo = linha[5]; // Coluna F = Protocolo
-  const statusSelect = $(`#tabela tbody tr:eq(${index}) select.status-select`);
-  const novoStatus = statusSelect.val();
-  const responsavel = localStorage.getItem('user') || '';
-
-  const obj = {
-    action: 'updateStatus',
-    protocolo: protocolo,
-    status: novoStatus,
-    responsavel: responsavel
-  };
-
-  const res = await fetch(BASE, {
-    method: 'POST',
-    body: JSON.stringify(obj)
-  });
-
-  const data = await res.json();
-  if (data.ok) {
-    alert('Status atualizado com sucesso!');
-    loadEntries(); // recarrega a tabela
-  } else {
-    alert('Erro ao atualizar status: ' + (data.msg || ''));
-  }
-});
+    $(document).on('click', '.btn-editar', function(e) {
+      e.preventDefault();
+      const index = $(this).data('index');
+      const linha = tabela.row(index).data();
+    
+      // Preenche o formulário com os dados da linha
+      const form = $('#formNovo')[0];
+      const campos = form.elements;
+      const colunas = tabela.columns().header().toArray().map(th => $(th).text().trim());
+    
+      for (let i = 0; i < colunas.length; i++) {
+        const campo = campos[i];
+        if (campo && linha[i] && campo.tagName !== 'BUTTON') {
+          campo.value = linha[i];
+        }
+      }
+    
+      // Mostra o modal
+      $('#modalNovo').modal('show');
+    });
     
     // Inicialização
     

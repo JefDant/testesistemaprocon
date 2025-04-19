@@ -143,11 +143,7 @@
           tr.append($('<td>').text(formatted));
           });
         // dropdown de status
-        const statusTd = tr.children().eq(10).empty();
-        const sel = $('<select class="form-select">').appendTo(statusTd);
-        ['Aberta','Em análise','Em negociação','Encaminhada ao fornecedor','Aguardando resposta do fornecedor','Resolvida','Arquivada sem solução']
-          .forEach(opt=> sel.append(new Option(opt,opt)));
-        sel.val(row.Status);
+        const statusTd = tr.children().eq(10).empty().text(row.Status);
         body.append(tr);
       });
       if (!tabela) tabela = $('#tabela').DataTable();

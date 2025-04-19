@@ -19,11 +19,10 @@
 </div>
 </div>
 </nav>
-<div class="container">
 <div class="mb-3 text-center">
 <img alt="Logo do Sistema" class="img-fluid" src="logo.png" style="max-height:150px;"/>
 </div>
-<div class="mb-4 text-end">
+<div class="mb-4 text-end"><a class="btn btn-outline-primary me-2" href="https://docs.google.com/spreadsheets/d/1fe5Ypntr7P1wQlDpgNaRgBpcLdnpJTNiF1cdbZYApLc/edit?usp=sharing" target="_blank">Ver Planilha</a>
 <button class="btn btn-success" data-bs-target="#modalNovo" data-bs-toggle="modal">Novo Lançamento</button>
 </div>
 <table class="table table-striped table-bordered" id="tabela">
@@ -37,9 +36,10 @@
 </thead>
 <tbody></tbody>
 </table>
-</div>
 <!-- Modal Novo Lançamento -->
-<div class="modal fade" id="modalNovo" tabindex="-1">
+<!-- Modal Alterar Status -->
+<!-- jQuery, Bootstrap, DataTables JS -->
+</div><div class="modal fade" id="modalNovo" tabindex="-1">
 <div class="modal-dialog modal-lg">
 <div class="modal-content">
 <form id="formNovo">
@@ -79,9 +79,7 @@
 </form>
 </div>
 </div>
-</div>
-<!-- Modal Alterar Status -->
-<div class="modal fade" id="modalStatus" tabindex="-1">
+</div><div class="modal fade" id="modalStatus" tabindex="-1">
 <div class="modal-dialog">
 <div class="modal-content">
 <form id="formStatus">
@@ -115,9 +113,7 @@
 </form>
 </div>
 </div>
-</div>
-<!-- jQuery, Bootstrap, DataTables JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js">
+</div><script src="https://code.jquery.com/jquery-3.6.0.min.js">
 // Abrir modal com dados
 $(document).on('click', '.btn-status', function(e) {
   e.preventDefault();
@@ -160,8 +156,7 @@ $('#formStatus').on('submit', async function(e) {
   }
 });
 
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+</script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
 // Abrir modal com dados
 $(document).on('click', '.btn-status', function(e) {
   e.preventDefault();
@@ -204,8 +199,7 @@ $('#formStatus').on('submit', async function(e) {
   }
 });
 
-</script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js">
+</script><script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js">
 // Abrir modal com dados
 $(document).on('click', '.btn-status', function(e) {
   e.preventDefault();
@@ -248,8 +242,7 @@ $('#formStatus').on('submit', async function(e) {
   }
 });
 
-</script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js">
+</script><script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js">
 // Abrir modal com dados
 $(document).on('click', '.btn-status', function(e) {
   e.preventDefault();
@@ -292,8 +285,7 @@ $('#formStatus').on('submit', async function(e) {
   }
 });
 
-</script>
-<script>
+</script><script>
     const BASE = 'https://script.google.com/macros/s/AKfycbzBDG67hPw863f7I255qFybml2Ucx_u9cy7lbnYKZPZTEhbIdJee4lzdpLxK71QYwwK/exec';
 
     // Carrega Estados via IBGE
@@ -486,8 +478,7 @@ $('#formStatus').on('submit', async function(e) {
 $(function () {
   $('[title]').tooltip({ boundary: 'window' });
 });
-</script>
-<div class="modal fade" id="modalDescricao" tabindex="-1">
+</script><div class="modal fade" id="modalDescricao" tabindex="-1">
 <div class="modal-dialog">
 <div class="modal-content">
 <form id="formDescricao">
